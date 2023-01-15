@@ -87,7 +87,7 @@ class SignUp(Resource):
                 print("Inside If")
                 access_token = create_access_token(identity=new_user.customer_id)
                 refresh_token = create_refresh_token(identity=new_user.customer_id)
-
+                voucher.used = True
                 new_user.save()
 
                 response = {

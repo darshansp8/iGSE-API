@@ -44,3 +44,5 @@ class Vouchers(Resource):
         new_voucher.save()
 
         return new_voucher, HTTPStatus.CREATED
+
+
