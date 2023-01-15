@@ -8,3 +8,13 @@ class HelloAdmin(Resource):
 
     def get(self):
         return {'message': "Hello Admin"}
+
+
+@admin_namespace.route('/updateTariff')
+class UpdateTariff(Resource):
+
+    def put(self):
+        """
+        Update Tariff
+        """
+        pass
