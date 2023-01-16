@@ -5,6 +5,7 @@ from ..models.voucher import Voucher
 from werkzeug.security import generate_password_hash, check_password_hash
 from http import HTTPStatus
 from flask_jwt_extended import create_access_token, create_refresh_token
+from ..utilities import db
 
 auth_namespace = Namespace('auth', description="Authenticating the users")
 
@@ -87,8 +88,9 @@ class SignUp(Resource):
                 print("Inside If")
                 access_token = create_access_token(identity=new_user.customer_id)
                 refresh_token = create_refresh_token(identity=new_user.customer_id)
-                voucher.used = True
                 new_user.save()
+                voucher.used = True
+                db.session.commit()
 
                 response = {
                     'data': {

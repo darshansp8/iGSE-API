@@ -2,6 +2,7 @@ from flask_restx import Namespace, Resource, fields
 from flask import request
 from ..models.voucher import Voucher
 from http import HTTPStatus
+from ..utilities import db
 
 voucher_namespace = Namespace('Voucher', description="Valid EVC")
 
@@ -44,5 +45,17 @@ class Vouchers(Resource):
         new_voucher.save()
 
         return new_voucher, HTTPStatus.CREATED
+
+    @voucher_namespace.expect(voucher_model)
+    @voucher_namespace.marshal_with(voucher_model)
+    def put(self):
+
+        data = voucher_namespace.payload
+        voucher_to_update = Voucher.query.filter_by(evcCode=data['evcCode']).first()
+        voucher_to_update.used = data['used']
+
+        db.session.commit()
+
+        return voucher_to_update
 
 
